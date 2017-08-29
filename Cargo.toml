@@ -1,0 +1,19 @@
+[package]
+name = "libstrophe-sys-bindgen"
+version = "1.0.0"
+description = "Rust bindings for libstrophe, generated using bindgen"
+keywords = ["sys", "jabber", "xmpp", "strophe", "libstrophe", "bindgen", "messaging", "im"]
+categories = ["External FFI bindings"]
+authors = ["Pro <twisted.fall@gmail.com>"]
+license = "LGPL-3.0"
+documentation = "https://docs.rs/libstrophe-sys-bindgen"
+readme = "README.md"
+repository = "https://github.com/twistedfall/libstrophe-sys-bindgen"
+
+[dependencies]
+
+[build-dependencies]
+bindgen = {version = "0.31", optional = true}
+
+[features]
+buildtime_bindgen = ["bindgen"]
