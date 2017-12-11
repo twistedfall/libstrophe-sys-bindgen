@@ -12,14 +12,14 @@ pub const XMPP_NS_AUTH: &'static [u8; 15usize] = b"jabber:iq:auth\0";
 pub const XMPP_NS_DISCO_INFO: &'static [u8; 38usize] = b"http://jabber.org/protocol/disco#info\0";
 pub const XMPP_NS_DISCO_ITEMS: &'static [u8; 39usize] = b"http://jabber.org/protocol/disco#items\0";
 pub const XMPP_NS_ROSTER: &'static [u8; 17usize] = b"jabber:iq:roster\0";
-pub const XMPP_EOK: ::std::os::raw::c_int = 0;
-pub const XMPP_EMEM: ::std::os::raw::c_int = -1;
-pub const XMPP_EINVOP: ::std::os::raw::c_int = -2;
-pub const XMPP_EINT: ::std::os::raw::c_int = -3;
-pub const XMPP_CONN_FLAG_DISABLE_TLS: ::std::os::raw::c_uint = 1;
-pub const XMPP_CONN_FLAG_MANDATORY_TLS: ::std::os::raw::c_uint = 2;
-pub const XMPP_CONN_FLAG_LEGACY_SSL: ::std::os::raw::c_uint = 4;
-pub const XMPP_SHA1_DIGEST_SIZE: ::std::os::raw::c_uint = 20;
+pub const XMPP_EOK: i32 = 0;
+pub const XMPP_EMEM: i32 = -1;
+pub const XMPP_EINVOP: i32 = -2;
+pub const XMPP_EINT: i32 = -3;
+pub const XMPP_CONN_FLAG_DISABLE_TLS: u32 = 1;
+pub const XMPP_CONN_FLAG_MANDATORY_TLS: u32 = 2;
+pub const XMPP_CONN_FLAG_LEGACY_SSL: u32 = 4;
+pub const XMPP_SHA1_DIGEST_SIZE: u32 = 20;
 extern "C" {
     pub fn xmpp_initialize();
 }
@@ -53,21 +53,22 @@ extern "C" {
 #[derive(Debug, Copy, Clone)]
 pub struct _xmpp_mem_t {
     pub alloc: ::std::option::Option<
-        unsafe extern "C" fn(size: usize,
-                             userdata: *const ::std::os::raw::c_void)
-                             -> *mut ::std::os::raw::c_void,
+        unsafe extern "C" fn(size: usize, userdata: *const ::std::os::raw::c_void)
+            -> *mut ::std::os::raw::c_void,
     >,
     pub free: ::std::option::Option<
-        unsafe extern "C" fn(p: *mut ::std::os::raw::c_void,
-                             userdata: *const ::std::os::raw::c_void),
+        unsafe extern "C" fn(
+            p: *mut ::std::os::raw::c_void,
+            userdata: *const ::std::os::raw::c_void,
+        ),
     >,
-    pub realloc:
-        ::std::option::Option<
-            unsafe extern "C" fn(p: *mut ::std::os::raw::c_void,
-                                 size: usize,
-                                 userdata: *const ::std::os::raw::c_void)
-                                 -> *mut ::std::os::raw::c_void,
-        >,
+    pub realloc: ::std::option::Option<
+        unsafe extern "C" fn(
+            p: *mut ::std::os::raw::c_void,
+            size: usize,
+            userdata: *const ::std::os::raw::c_void,
+        ) -> *mut ::std::os::raw::c_void,
+    >,
     pub userdata: *mut ::std::os::raw::c_void,
 }
 #[test]
@@ -83,40 +84,40 @@ fn bindgen_test_layout__xmpp_mem_t() {
         concat!("Alignment of ", stringify!(_xmpp_mem_t))
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_mem_t)).alloc as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_mem_t>())).alloc as *const _ as usize },
         0usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_mem_t),
             "::",
             stringify!(alloc)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_mem_t)).free as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_mem_t>())).free as *const _ as usize },
         8usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_mem_t),
             "::",
             stringify!(free)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_mem_t)).realloc as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_mem_t>())).realloc as *const _ as usize },
         16usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_mem_t),
             "::",
             stringify!(realloc)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_mem_t)).userdata as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_mem_t>())).userdata as *const _ as usize },
         24usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_mem_t),
             "::",
             stringify!(userdata)
@@ -138,13 +139,14 @@ pub enum xmpp_conn_type_t {
     XMPP_CLIENT = 1,
     XMPP_COMPONENT = 2,
 }
-pub type xmpp_log_handler =
-    ::std::option::Option<
-        unsafe extern "C" fn(userdata: *const ::std::os::raw::c_void,
-                             level: xmpp_log_level_t,
-                             area: *const ::std::os::raw::c_char,
-                             msg: *const ::std::os::raw::c_char),
-    >;
+pub type xmpp_log_handler = ::std::option::Option<
+    unsafe extern "C" fn(
+        userdata: *const ::std::os::raw::c_void,
+        level: xmpp_log_level_t,
+        area: *const ::std::os::raw::c_char,
+        msg: *const ::std::os::raw::c_char,
+    ),
+>;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _xmpp_log_t {
@@ -164,20 +166,20 @@ fn bindgen_test_layout__xmpp_log_t() {
         concat!("Alignment of ", stringify!(_xmpp_log_t))
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_log_t)).handler as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_log_t>())).handler as *const _ as usize },
         0usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_log_t),
             "::",
             stringify!(handler)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const _xmpp_log_t)).userdata as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<_xmpp_log_t>())).userdata as *const _ as usize },
         8usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(_xmpp_log_t),
             "::",
             stringify!(userdata)
@@ -255,44 +257,45 @@ fn bindgen_test_layout_xmpp_stream_error_t() {
         concat!("Alignment of ", stringify!(xmpp_stream_error_t))
     );
     assert_eq!(
-        unsafe { &(*(0 as *const xmpp_stream_error_t)).type_ as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<xmpp_stream_error_t>())).type_ as *const _ as usize },
         0usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(xmpp_stream_error_t),
             "::",
             stringify!(type_)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const xmpp_stream_error_t)).text as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<xmpp_stream_error_t>())).text as *const _ as usize },
         8usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(xmpp_stream_error_t),
             "::",
             stringify!(text)
         )
     );
     assert_eq!(
-        unsafe { &(*(0 as *const xmpp_stream_error_t)).stanza as *const _ as usize },
+        unsafe { &(*(::std::ptr::null::<xmpp_stream_error_t>())).stanza as *const _ as usize },
         16usize,
         concat!(
-            "Alignment of field: ",
+            "Offset of field: ",
             stringify!(xmpp_stream_error_t),
             "::",
             stringify!(stanza)
         )
     );
 }
-pub type xmpp_conn_handler =
-    ::std::option::Option<
-        unsafe extern "C" fn(conn: *const xmpp_conn_t,
-                             event: xmpp_conn_event_t,
-                             error: ::std::os::raw::c_int,
-                             stream_error: *const xmpp_stream_error_t,
-                             userdata: *const ::std::os::raw::c_void),
-    >;
+pub type xmpp_conn_handler = ::std::option::Option<
+    unsafe extern "C" fn(
+        conn: *const xmpp_conn_t,
+        event: xmpp_conn_event_t,
+        error: ::std::os::raw::c_int,
+        stream_error: *const xmpp_stream_error_t,
+        userdata: *const ::std::os::raw::c_void,
+    ),
+>;
 extern "C" {
     pub fn xmpp_conn_new(ctx: *const xmpp_ctx_t) -> *mut xmpp_conn_t;
 }
@@ -394,12 +397,10 @@ extern "C" {
 extern "C" {
     pub fn xmpp_send_raw(conn: *const xmpp_conn_t, data: *const ::std::os::raw::c_char, len: usize);
 }
-pub type xmpp_timed_handler =
-    ::std::option::Option<
-        unsafe extern "C" fn(conn: *const xmpp_conn_t,
-                             userdata: *const ::std::os::raw::c_void)
-                             -> ::std::os::raw::c_int,
-    >;
+pub type xmpp_timed_handler = ::std::option::Option<
+    unsafe extern "C" fn(conn: *const xmpp_conn_t, userdata: *const ::std::os::raw::c_void)
+        -> ::std::os::raw::c_int,
+>;
 extern "C" {
     pub fn xmpp_timed_handler_add(
         conn: *const xmpp_conn_t,
@@ -411,13 +412,13 @@ extern "C" {
 extern "C" {
     pub fn xmpp_timed_handler_delete(conn: *const xmpp_conn_t, handler: xmpp_timed_handler);
 }
-pub type xmpp_handler =
-    ::std::option::Option<
-        unsafe extern "C" fn(conn: *const xmpp_conn_t,
-                             stanza: *const xmpp_stanza_t,
-                             userdata: *const ::std::os::raw::c_void)
-                             -> ::std::os::raw::c_int,
-    >;
+pub type xmpp_handler = ::std::option::Option<
+    unsafe extern "C" fn(
+        conn: *const xmpp_conn_t,
+        stanza: *const xmpp_stanza_t,
+        userdata: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
 extern "C" {
     pub fn xmpp_handler_add(
         conn: *const xmpp_conn_t,

@@ -11,7 +11,7 @@ fn build_wrapper() {
 	impl bindgen::callbacks::ParseCallbacks for PCallbacks {
 		fn int_macro(&self, name: &str, _value: i64) -> Option<bindgen::callbacks::IntKind> {
 			if name == "XMPP_EOK" {
-				Some(bindgen::callbacks::IntKind::Custom { name: "::std::os::raw::c_int", is_signed: true })
+				Some(bindgen::callbacks::IntKind::I32)
 			} else {
 				None
 			}

@@ -1,6 +1,6 @@
 [package]
 name = "libstrophe-sys-bindgen"
-version = "1.0.1"
+version = "1.1.0"
 description = "Rust bindings for libstrophe, generated using bindgen"
 keywords = ["jabber", "xmpp", "libstrophe", "bindgen", "im"]
 categories = ["external-ffi-bindings"]
@@ -13,7 +13,7 @@ repository = "https://github.com/twistedfall/libstrophe-sys-bindgen"
 [dependencies]
 
 [build-dependencies]
-bindgen = {version = "0.31", optional = true}
+bindgen = {version = "0.33", optional = true}
 
 [features]
 buildtime_bindgen = ["bindgen"]
