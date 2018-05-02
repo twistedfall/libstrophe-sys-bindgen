@@ -19,6 +19,7 @@ pub const XMPP_EINT: i32 = -3;
 pub const XMPP_CONN_FLAG_DISABLE_TLS: u32 = 1;
 pub const XMPP_CONN_FLAG_MANDATORY_TLS: u32 = 2;
 pub const XMPP_CONN_FLAG_LEGACY_SSL: u32 = 4;
+pub const XMPP_CONN_FLAG_TRUST_TLS: u32 = 8;
 pub const XMPP_SHA1_DIGEST_SIZE: u32 = 20;
 extern "C" {
     pub fn xmpp_initialize();
@@ -296,6 +297,13 @@ pub type xmpp_conn_handler = ::std::option::Option<
         userdata: *const ::std::os::raw::c_void,
     ),
 >;
+extern "C" {
+    pub fn xmpp_send_error(
+        conn: *const xmpp_conn_t,
+        type_: xmpp_error_type_t,
+        text: *const ::std::os::raw::c_char,
+    );
+}
 extern "C" {
     pub fn xmpp_conn_new(ctx: *const xmpp_ctx_t) -> *mut xmpp_conn_t;
 }
@@ -629,6 +637,13 @@ extern "C" {
     pub fn xmpp_presence_new(ctx: *mut xmpp_ctx_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
+    pub fn xmpp_error_new(
+        ctx: *mut xmpp_ctx_t,
+        type_: xmpp_error_type_t,
+        text: *const ::std::os::raw::c_char,
+    ) -> *mut xmpp_stanza_t;
+}
+extern "C" {
     pub fn xmpp_jid_new(
         ctx: *mut xmpp_ctx_t,
         node: *const ::std::os::raw::c_char,
@@ -670,6 +685,9 @@ extern "C" {
     pub fn xmpp_stop(ctx: *mut xmpp_ctx_t);
 }
 extern "C" {
+    pub fn xmpp_ctx_set_timeout(ctx: *const xmpp_ctx_t, timeout: ::std::os::raw::c_ulong);
+}
+extern "C" {
     pub fn xmpp_uuid_gen(ctx: *mut xmpp_ctx_t) -> *mut ::std::os::raw::c_char;
 }
 #[repr(C)]
@@ -684,6 +702,13 @@ extern "C" {
         data: *const ::std::os::raw::c_uchar,
         len: usize,
     ) -> *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn xmpp_sha1_digest(
+        data: *const ::std::os::raw::c_uchar,
+        len: usize,
+        digest: *mut ::std::os::raw::c_uchar,
+    );
 }
 extern "C" {
     pub fn xmpp_sha1_new(ctx: *mut xmpp_ctx_t) -> *mut xmpp_sha1_t;
