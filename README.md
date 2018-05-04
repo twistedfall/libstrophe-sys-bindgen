@@ -21,7 +21,7 @@ of the create, enable `buildtime_bindgen` feature.
 Usage of this crate creates runtime dependency on libstrophe.so so be sure to install that using
 your package manager.
 
-Current bindings were generated from libstrophe version: 0.9.1
+Current bindings were generated from libstrophe version: 0.9.2
 
 The difference from [libstrophe-sys] crate is the this one is automatically generated hence
 easier to maintain.
