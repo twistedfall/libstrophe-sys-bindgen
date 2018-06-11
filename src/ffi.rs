@@ -45,7 +45,7 @@ extern "C" {
     pub fn xmpp_ctx_new(mem: *const xmpp_mem_t, log: *const xmpp_log_t) -> *mut xmpp_ctx_t;
 }
 extern "C" {
-    pub fn xmpp_ctx_free(ctx: *const xmpp_ctx_t);
+    pub fn xmpp_ctx_free(ctx: *mut xmpp_ctx_t);
 }
 extern "C" {
     pub fn xmpp_free(ctx: *const xmpp_ctx_t, p: *mut ::std::os::raw::c_void);
@@ -54,20 +54,17 @@ extern "C" {
 #[derive(Debug, Copy, Clone)]
 pub struct _xmpp_mem_t {
     pub alloc: ::std::option::Option<
-        unsafe extern "C" fn(size: usize, userdata: *const ::std::os::raw::c_void)
+        unsafe extern "C" fn(size: usize, userdata: *mut ::std::os::raw::c_void)
             -> *mut ::std::os::raw::c_void,
     >,
     pub free: ::std::option::Option<
-        unsafe extern "C" fn(
-            p: *mut ::std::os::raw::c_void,
-            userdata: *const ::std::os::raw::c_void,
-        ),
+        unsafe extern "C" fn(p: *mut ::std::os::raw::c_void, userdata: *mut ::std::os::raw::c_void),
     >,
     pub realloc: ::std::option::Option<
         unsafe extern "C" fn(
             p: *mut ::std::os::raw::c_void,
             size: usize,
-            userdata: *const ::std::os::raw::c_void,
+            userdata: *mut ::std::os::raw::c_void,
         ) -> *mut ::std::os::raw::c_void,
     >,
     pub userdata: *mut ::std::os::raw::c_void,
@@ -142,7 +139,7 @@ pub enum xmpp_conn_type_t {
 }
 pub type xmpp_log_handler = ::std::option::Option<
     unsafe extern "C" fn(
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
         level: xmpp_log_level_t,
         area: *const ::std::os::raw::c_char,
         msg: *const ::std::os::raw::c_char,
@@ -290,35 +287,35 @@ fn bindgen_test_layout_xmpp_stream_error_t() {
 }
 pub type xmpp_conn_handler = ::std::option::Option<
     unsafe extern "C" fn(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         event: xmpp_conn_event_t,
         error: ::std::os::raw::c_int,
-        stream_error: *const xmpp_stream_error_t,
-        userdata: *const ::std::os::raw::c_void,
+        stream_error: *mut xmpp_stream_error_t,
+        userdata: *mut ::std::os::raw::c_void,
     ),
 >;
 extern "C" {
     pub fn xmpp_send_error(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         type_: xmpp_error_type_t,
-        text: *const ::std::os::raw::c_char,
+        text: *mut ::std::os::raw::c_char,
     );
 }
 extern "C" {
-    pub fn xmpp_conn_new(ctx: *const xmpp_ctx_t) -> *mut xmpp_conn_t;
+    pub fn xmpp_conn_new(ctx: *mut xmpp_ctx_t) -> *mut xmpp_conn_t;
 }
 extern "C" {
-    pub fn xmpp_conn_clone(conn: *const xmpp_conn_t) -> *mut xmpp_conn_t;
+    pub fn xmpp_conn_clone(conn: *mut xmpp_conn_t) -> *mut xmpp_conn_t;
 }
 extern "C" {
-    pub fn xmpp_conn_release(conn: *const xmpp_conn_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_conn_release(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_conn_get_flags(conn: *const xmpp_conn_t) -> ::std::os::raw::c_long;
 }
 extern "C" {
     pub fn xmpp_conn_set_flags(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         flags: ::std::os::raw::c_long,
     ) -> ::std::os::raw::c_int;
 }
@@ -329,128 +326,128 @@ extern "C" {
     pub fn xmpp_conn_get_bound_jid(conn: *const xmpp_conn_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_conn_set_jid(conn: *const xmpp_conn_t, jid: *const ::std::os::raw::c_char);
+    pub fn xmpp_conn_set_jid(conn: *mut xmpp_conn_t, jid: *const ::std::os::raw::c_char);
 }
 extern "C" {
     pub fn xmpp_conn_get_pass(conn: *const xmpp_conn_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_conn_set_pass(conn: *const xmpp_conn_t, pass: *const ::std::os::raw::c_char);
+    pub fn xmpp_conn_set_pass(conn: *mut xmpp_conn_t, pass: *const ::std::os::raw::c_char);
 }
 extern "C" {
-    pub fn xmpp_conn_get_context(conn: *const xmpp_conn_t) -> *mut xmpp_ctx_t;
+    pub fn xmpp_conn_get_context(conn: *mut xmpp_conn_t) -> *mut xmpp_ctx_t;
 }
 extern "C" {
-    pub fn xmpp_conn_disable_tls(conn: *const xmpp_conn_t);
+    pub fn xmpp_conn_disable_tls(conn: *mut xmpp_conn_t);
 }
 extern "C" {
-    pub fn xmpp_conn_is_secured(conn: *const xmpp_conn_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_conn_is_secured(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_conn_set_keepalive(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         timeout: ::std::os::raw::c_int,
         interval: ::std::os::raw::c_int,
     );
 }
 extern "C" {
     pub fn xmpp_connect_client(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         altdomain: *const ::std::os::raw::c_char,
         altport: ::std::os::raw::c_ushort,
         callback: xmpp_conn_handler,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_connect_component(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         server: *const ::std::os::raw::c_char,
         port: ::std::os::raw::c_ushort,
         callback: xmpp_conn_handler,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_connect_raw(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         altdomain: *const ::std::os::raw::c_char,
         altport: ::std::os::raw::c_ushort,
         callback: xmpp_conn_handler,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_conn_open_stream_default(conn: *const xmpp_conn_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_conn_open_stream_default(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_conn_open_stream(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         attributes: *mut *mut ::std::os::raw::c_char,
         attributes_len: usize,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_conn_tls_start(conn: *const xmpp_conn_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_conn_tls_start(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_disconnect(conn: *const xmpp_conn_t);
+    pub fn xmpp_disconnect(conn: *mut xmpp_conn_t);
 }
 extern "C" {
-    pub fn xmpp_send(conn: *const xmpp_conn_t, stanza: *const xmpp_stanza_t);
+    pub fn xmpp_send(conn: *mut xmpp_conn_t, stanza: *mut xmpp_stanza_t);
 }
 extern "C" {
-    pub fn xmpp_send_raw_string(conn: *const xmpp_conn_t, fmt: *const ::std::os::raw::c_char, ...);
+    pub fn xmpp_send_raw_string(conn: *mut xmpp_conn_t, fmt: *const ::std::os::raw::c_char, ...);
 }
 extern "C" {
-    pub fn xmpp_send_raw(conn: *const xmpp_conn_t, data: *const ::std::os::raw::c_char, len: usize);
+    pub fn xmpp_send_raw(conn: *mut xmpp_conn_t, data: *const ::std::os::raw::c_char, len: usize);
 }
 pub type xmpp_timed_handler = ::std::option::Option<
-    unsafe extern "C" fn(conn: *const xmpp_conn_t, userdata: *const ::std::os::raw::c_void)
+    unsafe extern "C" fn(conn: *mut xmpp_conn_t, userdata: *mut ::std::os::raw::c_void)
         -> ::std::os::raw::c_int,
 >;
 extern "C" {
     pub fn xmpp_timed_handler_add(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         handler: xmpp_timed_handler,
         period: ::std::os::raw::c_ulong,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     );
 }
 extern "C" {
-    pub fn xmpp_timed_handler_delete(conn: *const xmpp_conn_t, handler: xmpp_timed_handler);
+    pub fn xmpp_timed_handler_delete(conn: *mut xmpp_conn_t, handler: xmpp_timed_handler);
 }
 pub type xmpp_handler = ::std::option::Option<
     unsafe extern "C" fn(
-        conn: *const xmpp_conn_t,
-        stanza: *const xmpp_stanza_t,
-        userdata: *const ::std::os::raw::c_void,
+        conn: *mut xmpp_conn_t,
+        stanza: *mut xmpp_stanza_t,
+        userdata: *mut ::std::os::raw::c_void,
     ) -> ::std::os::raw::c_int,
 >;
 extern "C" {
     pub fn xmpp_handler_add(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         handler: xmpp_handler,
         ns: *const ::std::os::raw::c_char,
         name: *const ::std::os::raw::c_char,
         type_: *const ::std::os::raw::c_char,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     );
 }
 extern "C" {
-    pub fn xmpp_handler_delete(conn: *const xmpp_conn_t, handler: xmpp_handler);
+    pub fn xmpp_handler_delete(conn: *mut xmpp_conn_t, handler: xmpp_handler);
 }
 extern "C" {
     pub fn xmpp_id_handler_add(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         handler: xmpp_handler,
         id: *const ::std::os::raw::c_char,
-        userdata: *const ::std::os::raw::c_void,
+        userdata: *mut ::std::os::raw::c_void,
     );
 }
 extern "C" {
     pub fn xmpp_id_handler_delete(
-        conn: *const xmpp_conn_t,
+        conn: *mut xmpp_conn_t,
         handler: xmpp_handler,
         id: *const ::std::os::raw::c_char,
     );
@@ -459,44 +456,44 @@ extern "C" {
     pub fn xmpp_stanza_new(ctx: *mut xmpp_ctx_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
-    pub fn xmpp_stanza_clone(stanza: *const xmpp_stanza_t) -> *mut xmpp_stanza_t;
+    pub fn xmpp_stanza_clone(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_stanza_copy(stanza: *const xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
-    pub fn xmpp_stanza_release(stanza: *const xmpp_stanza_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_stanza_release(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_is_text(stanza: *const xmpp_stanza_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_stanza_is_text(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_is_tag(stanza: *const xmpp_stanza_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_stanza_is_tag(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_to_text(
         stanza: *mut xmpp_stanza_t,
-        buf: *const *mut ::std::os::raw::c_char,
-        buflen: *const usize,
+        buf: *mut *mut ::std::os::raw::c_char,
+        buflen: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_children(stanza: *const xmpp_stanza_t) -> *mut xmpp_stanza_t;
+    pub fn xmpp_stanza_get_children(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_stanza_get_child_by_name(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         name: *const ::std::os::raw::c_char,
     ) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_stanza_get_child_by_ns(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         ns: *const ::std::os::raw::c_char,
     ) -> *mut xmpp_stanza_t;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_next(stanza: *const xmpp_stanza_t) -> *mut xmpp_stanza_t;
+    pub fn xmpp_stanza_get_next(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_stanza_add_child(
@@ -506,32 +503,32 @@ extern "C" {
 }
 extern "C" {
     pub fn xmpp_stanza_get_attribute(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         name: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_attribute_count(stanza: *const xmpp_stanza_t) -> ::std::os::raw::c_int;
+    pub fn xmpp_stanza_get_attribute_count(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_get_attributes(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         attr: *mut *const ::std::os::raw::c_char,
         attrlen: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_text(stanza: *const xmpp_stanza_t) -> *mut ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_text(stanza: *mut xmpp_stanza_t) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_text_ptr(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_text_ptr(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_name(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_name(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn xmpp_stanza_set_attribute(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         key: *const ::std::os::raw::c_char,
         value: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
@@ -557,57 +554,57 @@ extern "C" {
 }
 extern "C" {
     pub fn xmpp_stanza_del_attribute(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         name: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_ns(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_ns(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_type(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_type(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_id(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_id(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_to(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_to(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
-    pub fn xmpp_stanza_get_from(stanza: *const xmpp_stanza_t) -> *const ::std::os::raw::c_char;
+    pub fn xmpp_stanza_get_from(stanza: *mut xmpp_stanza_t) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn xmpp_stanza_set_ns(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         ns: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_set_id(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         id: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_set_type(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         type_: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_set_to(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         to: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
     pub fn xmpp_stanza_set_from(
-        stanza: *const xmpp_stanza_t,
+        stanza: *mut xmpp_stanza_t,
         from: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn xmpp_stanza_reply(stanza: *const xmpp_stanza_t) -> *mut xmpp_stanza_t;
+    pub fn xmpp_stanza_reply(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_message_new(
@@ -685,7 +682,7 @@ extern "C" {
     pub fn xmpp_stop(ctx: *mut xmpp_ctx_t);
 }
 extern "C" {
-    pub fn xmpp_ctx_set_timeout(ctx: *const xmpp_ctx_t, timeout: ::std::os::raw::c_ulong);
+    pub fn xmpp_ctx_set_timeout(ctx: *mut xmpp_ctx_t, timeout: ::std::os::raw::c_ulong);
 }
 extern "C" {
     pub fn xmpp_uuid_gen(ctx: *mut xmpp_ctx_t) -> *mut ::std::os::raw::c_char;
