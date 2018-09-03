@@ -1,6 +1,6 @@
 [package]
 name = "libstrophe-sys-bindgen"
-version = "2.0.0"
+version = "2.0.1"
 description = "Rust bindings for libstrophe, generated using bindgen"
 keywords = ["jabber", "xmpp", "libstrophe", "bindgen", "im"]
 categories = ["external-ffi-bindings"]
@@ -14,7 +14,7 @@ links = "strophe"
 [dependencies]
 
 [build-dependencies]
-bindgen = {version = "=0.37", optional = true}
+bindgen = {version = "=0.39", optional = true}
 
 [features]
 buildtime_bindgen = ["bindgen"]
