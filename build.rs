@@ -1,17 +1,15 @@
 #[cfg(feature = "buildtime_bindgen")]
 fn build_wrapper() {
-	extern crate bindgen;
-
-	use std::env;
-	use std::path::PathBuf;
+	use std::{env, path::PathBuf};
+	use bindgen::callbacks;
 
 	#[derive(Debug)]
 	struct PCallbacks;
 
-	impl bindgen::callbacks::ParseCallbacks for PCallbacks {
-		fn int_macro(&self, name: &str, _value: i64) -> Option<bindgen::callbacks::IntKind> {
+	impl callbacks::ParseCallbacks for PCallbacks {
+		fn int_macro(&self, name: &str, _value: i64) -> Option<callbacks::IntKind> {
 			if name == "XMPP_EOK" {
-				Some(bindgen::callbacks::IntKind::I32)
+				Some(callbacks::IntKind::I32)
 			} else {
 				None
 			}

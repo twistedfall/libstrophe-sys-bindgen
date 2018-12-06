@@ -54,8 +54,10 @@ extern "C" {
 #[derive(Debug, Copy, Clone)]
 pub struct _xmpp_mem_t {
     pub alloc: ::std::option::Option<
-        unsafe extern "C" fn(size: usize, userdata: *mut ::std::os::raw::c_void)
-            -> *mut ::std::os::raw::c_void,
+        unsafe extern "C" fn(
+            size: usize,
+            userdata: *mut ::std::os::raw::c_void,
+        ) -> *mut ::std::os::raw::c_void,
     >,
     pub free: ::std::option::Option<
         unsafe extern "C" fn(p: *mut ::std::os::raw::c_void, userdata: *mut ::std::os::raw::c_void),
@@ -403,8 +405,10 @@ extern "C" {
     pub fn xmpp_send_raw(conn: *mut xmpp_conn_t, data: *const ::std::os::raw::c_char, len: usize);
 }
 pub type xmpp_timed_handler = ::std::option::Option<
-    unsafe extern "C" fn(conn: *mut xmpp_conn_t, userdata: *mut ::std::os::raw::c_void)
-        -> ::std::os::raw::c_int,
+    unsafe extern "C" fn(
+        conn: *mut xmpp_conn_t,
+        userdata: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
 >;
 extern "C" {
     pub fn xmpp_timed_handler_add(
