@@ -9,8 +9,11 @@ See [full documentation](https://docs.rs/libstrophe-sys-bindgen)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-libstrophe-sys-bindgen = "1.0"
+libstrophe-sys-bindgen = "2.0.5"
 ```
+
+[![Build Status](https://travis-ci.org/twistedfall/libstrophe.svg?branch=master)](https://travis-ci.org/twistedfall/libstrophe)
+
 ## libstrophe C library bindings
 
 This crate provides bindings to [libstrophe] C library which enables you the creation of XMPP

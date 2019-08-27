@@ -12,6 +12,9 @@ readme = "README.md"
 repository = "https://github.com/twistedfall/libstrophe-sys-bindgen"
 links = "strophe"
 
+[badges]
+travis-ci = { repository = "twistedfall/libstrophe", branch = "master" }
+
 [dependencies]
 
 [build-dependencies]
