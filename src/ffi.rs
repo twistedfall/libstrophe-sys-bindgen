@@ -20,6 +20,7 @@ pub const XMPP_CONN_FLAG_DISABLE_TLS: u32 = 1;
 pub const XMPP_CONN_FLAG_MANDATORY_TLS: u32 = 2;
 pub const XMPP_CONN_FLAG_LEGACY_SSL: u32 = 4;
 pub const XMPP_CONN_FLAG_TRUST_TLS: u32 = 8;
+pub const XMPP_CONN_FLAG_LEGACY_AUTH: u32 = 16;
 pub const XMPP_SHA1_DIGEST_SIZE: u32 = 20;
 extern "C" {
     pub fn xmpp_initialize();

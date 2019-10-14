@@ -9,7 +9,7 @@ See [full documentation](https://docs.rs/libstrophe-sys-bindgen)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-libstrophe-sys-bindgen = "2.0.6"
+libstrophe-sys-bindgen = "2.1.0"
 ```
 
 [![Build Status](https://travis-ci.org/twistedfall/libstrophe.svg?branch=master)](https://travis-ci.org/twistedfall/libstrophe)
@@ -24,7 +24,7 @@ of the create, enable `buildtime_bindgen` feature.
 Usage of this crate creates runtime dependency on libstrophe.so so be sure to install that using
 your package manager.
 
-Current bindings were generated from libstrophe version: 0.9.2
+Current bindings were generated from libstrophe version: 0.9.3
 
 The difference from [libstrophe-sys] crate is the this one is automatically generated hence
 easier to maintain.
