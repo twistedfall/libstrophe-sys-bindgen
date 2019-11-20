@@ -18,7 +18,7 @@ travis-ci = { repository = "twistedfall/libstrophe", branch = "master" }
 [dependencies]
 
 [build-dependencies]
-bindgen = {version = "0.51", optional = true}
+bindgen = {version = "0.52", optional = true}
 
 [features]
 buildtime_bindgen = ["bindgen"]
