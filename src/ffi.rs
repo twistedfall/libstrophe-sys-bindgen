@@ -22,7 +22,6 @@ pub const XMPP_CONN_FLAG_LEGACY_SSL: u32 = 4;
 pub const XMPP_CONN_FLAG_TRUST_TLS: u32 = 8;
 pub const XMPP_CONN_FLAG_LEGACY_AUTH: u32 = 16;
 pub const XMPP_SHA1_DIGEST_SIZE: u32 = 20;
-pub type size_t = ::std::os::raw::c_ulong;
 extern "C" {
     pub fn xmpp_initialize();
 }
@@ -57,7 +56,7 @@ extern "C" {
 pub struct _xmpp_mem_t {
     pub alloc: ::std::option::Option<
         unsafe extern "C" fn(
-            size: size_t,
+            size: usize,
             userdata: *mut ::std::os::raw::c_void,
         ) -> *mut ::std::os::raw::c_void,
     >,
@@ -67,7 +66,7 @@ pub struct _xmpp_mem_t {
     pub realloc: ::std::option::Option<
         unsafe extern "C" fn(
             p: *mut ::std::os::raw::c_void,
-            size: size_t,
+            size: usize,
             userdata: *mut ::std::os::raw::c_void,
         ) -> *mut ::std::os::raw::c_void,
     >,
@@ -388,7 +387,7 @@ extern "C" {
     pub fn xmpp_conn_open_stream(
         conn: *mut xmpp_conn_t,
         attributes: *mut *mut ::std::os::raw::c_char,
-        attributes_len: size_t,
+        attributes_len: usize,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
@@ -404,7 +403,7 @@ extern "C" {
     pub fn xmpp_send_raw_string(conn: *mut xmpp_conn_t, fmt: *const ::std::os::raw::c_char, ...);
 }
 extern "C" {
-    pub fn xmpp_send_raw(conn: *mut xmpp_conn_t, data: *const ::std::os::raw::c_char, len: size_t);
+    pub fn xmpp_send_raw(conn: *mut xmpp_conn_t, data: *const ::std::os::raw::c_char, len: usize);
 }
 pub type xmpp_timed_handler = ::std::option::Option<
     unsafe extern "C" fn(
@@ -480,7 +479,7 @@ extern "C" {
     pub fn xmpp_stanza_to_text(
         stanza: *mut xmpp_stanza_t,
         buf: *mut *mut ::std::os::raw::c_char,
-        buflen: *mut size_t,
+        buflen: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
@@ -555,7 +554,7 @@ extern "C" {
     pub fn xmpp_stanza_set_text_with_size(
         stanza: *mut xmpp_stanza_t,
         text: *const ::std::os::raw::c_char,
-        size: size_t,
+        size: usize,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
@@ -703,13 +702,13 @@ extern "C" {
     pub fn xmpp_sha1(
         ctx: *mut xmpp_ctx_t,
         data: *const ::std::os::raw::c_uchar,
-        len: size_t,
+        len: usize,
     ) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn xmpp_sha1_digest(
         data: *const ::std::os::raw::c_uchar,
-        len: size_t,
+        len: usize,
         digest: *mut ::std::os::raw::c_uchar,
     );
 }
@@ -723,7 +722,7 @@ extern "C" {
     pub fn xmpp_sha1_update(
         sha1: *mut xmpp_sha1_t,
         data: *const ::std::os::raw::c_uchar,
-        len: size_t,
+        len: usize,
     );
 }
 extern "C" {
@@ -733,7 +732,7 @@ extern "C" {
     pub fn xmpp_sha1_to_string(
         sha1: *mut xmpp_sha1_t,
         s: *mut ::std::os::raw::c_char,
-        slen: size_t,
+        slen: usize,
     ) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
@@ -746,22 +745,22 @@ extern "C" {
     pub fn xmpp_base64_encode(
         ctx: *mut xmpp_ctx_t,
         data: *const ::std::os::raw::c_uchar,
-        len: size_t,
+        len: usize,
     ) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn xmpp_base64_decode_str(
         ctx: *mut xmpp_ctx_t,
         base64: *const ::std::os::raw::c_char,
-        len: size_t,
+        len: usize,
     ) -> *mut ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn xmpp_base64_decode_bin(
         ctx: *mut xmpp_ctx_t,
         base64: *const ::std::os::raw::c_char,
-        len: size_t,
+        len: usize,
         out: *mut *mut ::std::os::raw::c_uchar,
-        outlen: *mut size_t,
+        outlen: *mut usize,
     );
 }

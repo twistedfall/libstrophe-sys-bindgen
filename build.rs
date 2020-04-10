@@ -18,6 +18,7 @@ fn build_wrapper() {
 
 	let builder = bindgen::builder()
 		.header("wrapper.h")
+		.size_t_is_usize(true)
 		.parse_callbacks(Box::new(PCallbacks))
 
 		.blacklist_type("max_align_t")
