@@ -1,6 +1,6 @@
 [package]
 name = "libstrophe-sys-bindgen"
-version = "4.1.0"
+version = "4.2.0"
 edition = "2018"
 description = "Rust bindings for libstrophe, generated using bindgen"
 keywords = ["jabber", "xmpp", "libstrophe", "bindgen", "im"]
@@ -18,7 +18,7 @@ travis-ci = { repository = "twistedfall/libstrophe", branch = "master" }
 [dependencies]
 
 [build-dependencies]
-bindgen = {version = "0.54", optional = true}
+bindgen = {version = "0.55", optional = true}
 
 [features]
 buildtime_bindgen = ["bindgen"]
