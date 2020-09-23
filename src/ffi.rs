@@ -4,6 +4,7 @@ pub const XMPP_NS_CLIENT: &'static [u8; 14usize] = b"jabber:client\0";
 pub const XMPP_NS_COMPONENT: &'static [u8; 24usize] = b"jabber:component:accept\0";
 pub const XMPP_NS_STREAMS: &'static [u8; 33usize] = b"http://etherx.jabber.org/streams\0";
 pub const XMPP_NS_STREAMS_IETF: &'static [u8; 36usize] = b"urn:ietf:params:xml:ns:xmpp-streams\0";
+pub const XMPP_NS_STANZAS_IETF: &'static [u8; 36usize] = b"urn:ietf:params:xml:ns:xmpp-stanzas\0";
 pub const XMPP_NS_TLS: &'static [u8; 32usize] = b"urn:ietf:params:xml:ns:xmpp-tls\0";
 pub const XMPP_NS_SASL: &'static [u8; 33usize] = b"urn:ietf:params:xml:ns:xmpp-sasl\0";
 pub const XMPP_NS_BIND: &'static [u8; 33usize] = b"urn:ietf:params:xml:ns:xmpp-bind\0";
@@ -12,6 +13,7 @@ pub const XMPP_NS_AUTH: &'static [u8; 15usize] = b"jabber:iq:auth\0";
 pub const XMPP_NS_DISCO_INFO: &'static [u8; 38usize] = b"http://jabber.org/protocol/disco#info\0";
 pub const XMPP_NS_DISCO_ITEMS: &'static [u8; 39usize] = b"http://jabber.org/protocol/disco#items\0";
 pub const XMPP_NS_ROSTER: &'static [u8; 17usize] = b"jabber:iq:roster\0";
+pub const XMPP_NS_REGISTER: &'static [u8; 19usize] = b"jabber:iq:register\0";
 pub const XMPP_EOK: i32 = 0;
 pub const XMPP_EMEM: i32 = -1;
 pub const XMPP_EINVOP: i32 = -2;
@@ -354,6 +356,15 @@ extern "C" {
     );
 }
 extern "C" {
+    pub fn xmpp_conn_is_connecting(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn xmpp_conn_is_connected(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn xmpp_conn_is_disconnected(conn: *mut xmpp_conn_t) -> ::std::os::raw::c_int;
+}
+extern "C" {
     pub fn xmpp_connect_client(
         conn: *mut xmpp_conn_t,
         altdomain: *const ::std::os::raw::c_char,
@@ -422,6 +433,26 @@ extern "C" {
 extern "C" {
     pub fn xmpp_timed_handler_delete(conn: *mut xmpp_conn_t, handler: xmpp_timed_handler);
 }
+pub type xmpp_global_timed_handler = ::std::option::Option<
+    unsafe extern "C" fn(
+        ctx: *mut xmpp_ctx_t,
+        userdata: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
+extern "C" {
+    pub fn xmpp_global_timed_handler_add(
+        ctx: *mut xmpp_ctx_t,
+        handler: xmpp_global_timed_handler,
+        period: ::std::os::raw::c_ulong,
+        userdata: *mut ::std::os::raw::c_void,
+    );
+}
+extern "C" {
+    pub fn xmpp_global_timed_handler_delete(
+        ctx: *mut xmpp_ctx_t,
+        handler: xmpp_global_timed_handler,
+    );
+}
 pub type xmpp_handler = ::std::option::Option<
     unsafe extern "C" fn(
         conn: *mut xmpp_conn_t,
@@ -461,6 +492,12 @@ extern "C" {
     pub fn xmpp_stanza_new(ctx: *mut xmpp_ctx_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
+    pub fn xmpp_stanza_new_from_string(
+        ctx: *mut xmpp_ctx_t,
+        str_: *const ::std::os::raw::c_char,
+    ) -> *mut xmpp_stanza_t;
+}
+extern "C" {
     pub fn xmpp_stanza_clone(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
@@ -468,6 +505,9 @@ extern "C" {
 }
 extern "C" {
     pub fn xmpp_stanza_release(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn xmpp_stanza_get_context(stanza: *const xmpp_stanza_t) -> *mut xmpp_ctx_t;
 }
 extern "C" {
     pub fn xmpp_stanza_is_text(stanza: *mut xmpp_stanza_t) -> ::std::os::raw::c_int;
@@ -498,12 +538,26 @@ extern "C" {
     ) -> *mut xmpp_stanza_t;
 }
 extern "C" {
+    pub fn xmpp_stanza_get_child_by_name_and_ns(
+        stanza: *mut xmpp_stanza_t,
+        name: *const ::std::os::raw::c_char,
+        ns: *const ::std::os::raw::c_char,
+    ) -> *mut xmpp_stanza_t;
+}
+extern "C" {
     pub fn xmpp_stanza_get_next(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_stanza_add_child(
         stanza: *mut xmpp_stanza_t,
         child: *mut xmpp_stanza_t,
+    ) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn xmpp_stanza_add_child_ex(
+        stanza: *mut xmpp_stanza_t,
+        child: *mut xmpp_stanza_t,
+        do_clone: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
@@ -610,6 +664,14 @@ extern "C" {
 }
 extern "C" {
     pub fn xmpp_stanza_reply(stanza: *mut xmpp_stanza_t) -> *mut xmpp_stanza_t;
+}
+extern "C" {
+    pub fn xmpp_stanza_reply_error(
+        stanza: *mut xmpp_stanza_t,
+        error_type: *const ::std::os::raw::c_char,
+        condition: *const ::std::os::raw::c_char,
+        text: *const ::std::os::raw::c_char,
+    ) -> *mut xmpp_stanza_t;
 }
 extern "C" {
     pub fn xmpp_message_new(
