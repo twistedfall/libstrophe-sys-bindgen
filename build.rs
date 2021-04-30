@@ -21,8 +21,8 @@ fn build_wrapper() {
 		.size_t_is_usize(true)
 		.parse_callbacks(Box::new(PCallbacks))
 
-		.blacklist_type("max_align_t")
-		.blacklist_type("wchar_t")
+		.blocklist_type("max_align_t")
+		.blocklist_type("wchar_t")
 
 		.rustified_enum("xmpp_log_level_t")
 		.rustified_enum("xmpp_conn_type_t")
