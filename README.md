@@ -9,10 +9,10 @@ See [full documentation](https://docs.rs/libstrophe-sys-bindgen)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-libstrophe-sys-bindgen = "4.0.0"
+libstrophe-sys-bindgen = "4.5.1"
 ```
 
-[![Build Status](https://travis-ci.org/twistedfall/libstrophe.svg?branch=master)](https://travis-ci.org/twistedfall/libstrophe)
+[![Build Status](https://github.com/twistedfall/libstrophe-sys-bindgen/actions/workflows/libstrophe-sys-bindgen.yml/badge.svg)](https://github.com/twistedfall/libstrophe-sys-bindgen/actions/workflows/libstrophe-sys-bindgen.yml)
 
 ## libstrophe C library bindings
 
