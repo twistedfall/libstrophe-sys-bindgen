@@ -9,7 +9,7 @@ See [full documentation](https://docs.rs/libstrophe-sys-bindgen)
 Add this to your Cargo.toml:
 ```
 [dependencies]
-libstrophe-sys-bindgen = "4.5.1"
+libstrophe-sys-bindgen = "5.0.0"
 ```
 
 [![Build Status](https://github.com/twistedfall/libstrophe-sys-bindgen/actions/workflows/libstrophe-sys-bindgen.yml/badge.svg)](https://github.com/twistedfall/libstrophe-sys-bindgen/actions/workflows/libstrophe-sys-bindgen.yml)
@@ -24,9 +24,9 @@ of the create, enable `buildtime_bindgen` feature.
 Usage of this crate creates runtime dependency on libstrophe.so so be sure to install that using
 your package manager.
 
-Current bindings were generated from libstrophe version: 0.9.3
+Current bindings were generated from libstrophe version: 0.12.0
 
-The difference from [libstrophe-sys] crate is the this one is automatically generated hence
+The difference from [libstrophe-sys] crate is that this one is automatically generated hence
 easier to maintain.
 
 This crate contains only C bindings, for Rust ergonomic interface see [libstrophe][libstrophe_crate] crate.

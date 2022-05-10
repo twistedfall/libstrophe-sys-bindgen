@@ -8,9 +8,9 @@
 //! Usage of this crate creates runtime dependency on libstrophe.so so be sure to install that using
 //! your package manager.
 //!
-//! Current bindings were generated from libstrophe version: 0.9.3
+//! Current bindings were generated from libstrophe version: 0.12.0
 //!
-//! The difference from [libstrophe-sys] crate is the this one is automatically generated hence
+//! The difference from [libstrophe-sys] crate is that this one is automatically generated hence
 //! easier to maintain.
 //!
 //! This crate contains only C bindings, for Rust ergonomic interface see [libstrophe][libstrophe_crate] crate.
