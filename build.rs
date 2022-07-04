@@ -29,6 +29,7 @@ fn build_wrapper() {
 		.rustified_enum("xmpp_conn_event_t")
 		.rustified_enum("xmpp_error_type_t")
 		.rustified_enum("xmpp_cert_element_t")
+		.rustified_enum("xmpp_queue_element_t")
 	;
 
 	let bindings = builder.generate().expect("Unable to generate bindings");
