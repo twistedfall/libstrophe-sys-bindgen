@@ -15,7 +15,7 @@ links = "strophe"
 [dependencies]
 
 [build-dependencies]
-bindgen = { version = "0.60", optional = true }
+bindgen = { version = "0.61", optional = true }
 
 [features]
 buildtime_bindgen = ["bindgen"]
